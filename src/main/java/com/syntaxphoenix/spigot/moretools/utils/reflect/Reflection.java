@@ -1,16 +1,26 @@
 package com.syntaxphoenix.spigot.moretools.utils.reflect;
 
+import org.bukkit.Bukkit;
+
 public class Reflection {
 	
-	private static CraftBukkit craftBukkit;
-	private static Minecraft minecraft;
+	private static CraftBukkitCache craftBukkit;
+	private static MinecraftCache minecraft;
+	private static String version;
 	
-	public static CraftBukkit getCB() {
-		return craftBukkit == null ? (craftBukkit = new CraftBukkit()) : craftBukkit;
+	public static CraftBukkitCache getCraftBukkit() {
+		return craftBukkit == null ? (craftBukkit = new CraftBukkitCache()) : craftBukkit;
 	}
 	
-	public static Minecraft getNMS() {
-		return minecraft == null ? (minecraft = new Minecraft()) : minecraft;
+	public static MinecraftCache getMinecraft() {
+		return minecraft == null ? (minecraft = new MinecraftCache()) : minecraft;
 	}
-
+	
+	protected static String getVersion() {
+		if(version == null) {
+			return version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+		}
+		return version;
+	}
+	
 }

@@ -1,7 +1,5 @@
 package com.syntaxphoenix.spigot.moretools;
 
-import java.util.logging.Logger;
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,8 +16,6 @@ public class MoreTools extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new ToolListener(manager = new ToolManager()), this);
 		
 		manager.register(new TestTool());
-		
-		Logger log = getLogger();
 		
 	}
 

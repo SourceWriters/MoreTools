@@ -1,16 +1,13 @@
 package com.syntaxphoenix.spigot.moretools.data;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.syntaxphoenix.spigotlib.mcnbt.NbtBase;
-import com.syntaxphoenix.spigotlib.mcnbt.NbtCompound;
-import com.syntaxphoenix.spigotlib.mcnbt.NbtTools;
+import com.syntaxphoenix.syntaxapi.nbt.NbtCompound;
+import com.syntaxphoenix.syntaxapi.nbt.NbtNamedTag;
+import com.syntaxphoenix.syntaxapi.nbt.NbtTag;
+import com.syntaxphoenix.syntaxapi.nbt.tools.NbtDeserializer;
+import com.syntaxphoenix.syntaxapi.nbt.tools.NbtSerializer;
 
 public class DataStorage {
 
@@ -20,38 +17,34 @@ public class DataStorage {
 	public DataStorage(File file) {
 		this.file = file;
 	}
-	
+
 	/*
 	 * 
 	 * 
 	 * 
 	 */
-	
-	public void set(Saveable save) {
-		save.save(getData());
-	}
-	
+
 	public NbtCompound getData() {
 		return data != null ? data : (data = preload());
 	}
 
-	public void set(String path, NbtBase input) {
+	public void set(String path, NbtTag input) {
 		getData().set(path, input);
 	}
 
 	public void setInt(String path, int input) {
-		getData().setInt(path, input);
+		getData().set(path, input);
 	}
 
 	public void setString(String path, String input) {
-		getData().setString(path, input);
+		getData().set(path, input);
 	}
 
 	public void setBoolean(String path, boolean input) {
-		getData().setBoolean(path, input);
+		getData().set(path, input);
 	}
 
-	public NbtBase get(String path) {
+	public NbtTag get(String path) {
 		return getData().get(path);
 	}
 
@@ -66,7 +59,7 @@ public class DataStorage {
 	public boolean getBoolean(String path) {
 		return getData().getBoolean(path);
 	}
-	
+
 	/*
 	 * 
 	 * 
@@ -94,16 +87,15 @@ public class DataStorage {
 	private NbtCompound preload() {
 		if (file.exists()) {
 			try {
-				DataInputStream input = new DataInputStream(new FileInputStream(file));
-				return NbtTools.readNbt(input);
-			} catch (FileNotFoundException | ReflectiveOperationException e) {
+				return (NbtCompound) NbtDeserializer.COMPRESSED.fromFile(file).getTag();
+			} catch (IOException | ClassCastException e) {
 				return new NbtCompound();
 			}
 		} else {
 			return new NbtCompound();
 		}
 	}
-	
+
 	/*
 	 * 
 	 * 
@@ -115,26 +107,19 @@ public class DataStorage {
 	}
 
 	public void save() {
-		NbtCompound store = new NbtCompound();
-		store.set("Storage", data);
-
-		DataOutputStream output = null;
+		directory();
 		try {
-			directory();
-			if(file.exists()) {
-				if(file.isDirectory()) {
+			if (file.exists()) {
+				if (file.isDirectory()) {
 					file.delete();
 					file.createNewFile();
 				}
 			} else {
 				file.createNewFile();
 			}
-			output = new DataOutputStream(new FileOutputStream(file));
+			NbtSerializer.COMPRESSED.toFile(new NbtNamedTag("storage", data), file);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		if (output != null) {
-			store.write(output);
 		}
 	}
 

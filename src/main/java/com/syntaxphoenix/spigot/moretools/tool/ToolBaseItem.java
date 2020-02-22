@@ -9,7 +9,6 @@ import org.bukkit.inventory.meta.tags.CustomItemTagContainer;
 
 import com.syntaxphoenix.spigot.moretools.utils.reflect.CraftBukkit;
 import com.syntaxphoenix.spigot.moretools.utils.reflect.Reflection;
-import com.syntaxphoenix.spigotlib.utils.CbReflect;
 
 public class ToolBaseItem {
 	
@@ -93,13 +92,12 @@ public class ToolBaseItem {
 	}
 	
 	private Set<String> getKeys(CustomItemTagContainer container){
-		CraftBukkit bukkit = Reflection.getCB();
-		CbReflect reflect = bukkit.create("customItemTag", "inventory.tags.CraftCustomItemTagContainer");
-		if(!reflect.containsField("tagMap")) {
-			reflect.searchField("tagMap", "customTags");
+		CraftBukkit bukkit = Reflection.getCraftBukkit().create("customItemTag", "inventory.tags.CraftCustomItemTagContainer");
+		if(!bukkit.containsField("tagMap")) {
+			bukkit.searchField("tagMap", "customTags");
 		}
 		@SuppressWarnings("unchecked")
-		Map<String, ?> map = (Map<String, ?>) reflect.getFieldValue("tagMap", container);
+		Map<String, ?> map = (Map<String, ?>) bukkit.getFieldValue("tagMap", container);
 		return map.keySet();
 	}
 
