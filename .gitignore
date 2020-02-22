@@ -1,0 +1,8 @@
+/bin/
+/target/
+/.settings/
+/.idea/
+/.classpath
+/.project
+MoreTools.iml
+/dependency-reduced-pom.xml
