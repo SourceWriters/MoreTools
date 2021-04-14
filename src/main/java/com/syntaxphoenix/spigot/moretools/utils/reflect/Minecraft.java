@@ -1,6 +1,6 @@
 package com.syntaxphoenix.spigot.moretools.utils.reflect;
 
-import com.syntaxphoenix.syntaxapi.reflections.AbstractReflect;
+import com.syntaxphoenix.syntaxapi.reflection.AbstractReflect;
 
 public class Minecraft extends AbstractReflect {
 

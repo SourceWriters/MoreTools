@@ -76,7 +76,6 @@ public class SquareBreak extends BreakAbility {
 		for(int index = 0; index < output.length; index++) {
 			output[index] = new Location(start.getWorld(), input[index][0], input[index][1], z);
 		}
-		
 	}
 	
 	public int[][] calc(int in1, int in2) {

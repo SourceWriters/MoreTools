@@ -1,6 +1,6 @@
 package com.syntaxphoenix.spigot.moretools.utils.reflect;
 
-import com.syntaxphoenix.syntaxapi.reflections.AbstractReflectCache;
+import com.syntaxphoenix.syntaxapi.reflection.AbstractReflectCache;
 
 public class MinecraftCache extends AbstractReflectCache<Minecraft> {
 

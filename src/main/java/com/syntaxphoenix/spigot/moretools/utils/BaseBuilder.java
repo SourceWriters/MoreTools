@@ -1,6 +1,7 @@
 package com.syntaxphoenix.spigot.moretools.utils;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -18,6 +19,7 @@ public class BaseBuilder {
 	
 	private ItemStack stack;
 	private ItemMeta meta;
+	
 	public BaseBuilder(Material material) {
 		this.stack = new ItemStack(material);
 		meta = stack.getItemMeta();
@@ -28,9 +30,14 @@ public class BaseBuilder {
 		return this;
 	}
 	
-	public ToolBaseItem asBase() {
+	public BaseBuilder enchant(Enchantment ench, int level) {
+		meta.addEnchant(ench, level, true);
+		return this;
+	}
+	
+	public ToolBaseItem asBase(String id) {
 		stack.setItemMeta(meta);
-		return new ToolBaseItem(stack);
+		return new ToolBaseItem(id, stack);
 	}
 	
 	public ItemStack asItemStack() {

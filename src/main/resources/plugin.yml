@@ -2,3 +2,4 @@ main: com.syntaxphoenix.spigot.moretools.MoreTools
 version: Alpha 0.1
 name: MoreTools
 author: Lauriichen
+api-version: 1.13
